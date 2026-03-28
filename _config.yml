@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexagon
-subtitle: Drace wang's blogs
-description: 'Hexagon makes the world'
-keywords:
-author: Drace Wang
+title: 信息差
+subtitle: 
+description: '弥合信息差，做世界公民。'
+keywords: 身份, 投资
+author: 周期的力量
 language: zh-Hans
 timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://dracewang.github.io
+url: https://ainavigation.org/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:

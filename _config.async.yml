@@ -1,14 +1,12 @@
 # logo
 favicon:
-  logo: 
-  icon16: 
-  icon32: 
-  apple_touch_icon: 
+  logo: /img/xinxicha.ico
+  icon16: /img/xinxicha.ico
+  icon32: /img/xinxicha.ico
+  apple_touch_icon: /img/xinxicha.ico
   webmanifest: 
   visibilitychange: true
-  hidden: failure.ico
-  show_text: 回来啦~
-  hide_text: (●—●)看不见我！
+  hidden: /img/xinxicha.ico
 
 top_bars:
   - title: menu.home
@@ -27,26 +25,16 @@ top_bars:
 		noswup: true
 
 sidebar:
-  typedTextPrefix: 一个  
-  typedText: [ '平凡的码农' ]
+  typedTextPrefix: 做  
+  typedText: [ '世界公民' ]
   info: 
-    - key: 居住地
-      val: 无锡
-    - key: 码龄
-      val: 7
+    - key: 主题
+      val: 身份 投资
   social:
-    - icon: fas fa-rss
-      url: atom.xml
-    - name: Github
-      icon: fab fa-github
-      url: https://github.com/DraceWang
-    - name: facebook
-      icon: fab fa-facebook
-      url: https://www.facebook.com/profile.php?id=100006615107136
-    - name: weibo
+    - name: 微博
       icon: fab fa-weibo
       url: https://www.weibo.com/u/2421168192
-    - name: ZhiHu
+    - name: 知乎
       icon: fab fa-zhihu
       url: https://www.zhihu.com/people/wang-shun-da-55
 
@@ -56,11 +44,11 @@ footer:
   beian:
     enable: false
     icp: 
-  copyright_year: 2022
+  copyright_year: 2026
   live_time:
     enable: true
     prefix: footer.tips
-    start_time: 10/08/2023 10:00:00
+    start_time: 03/01/2026 10:00:00
   custom_text:
 
 search:
@@ -197,19 +185,19 @@ banner:
 
 # User info
 user:
-  name: Drace Wang
-  first_name: Wang
-  last_name: Drace
-  email: wsdboy007@163.com
-  domain: https://dracewag.github.ico
-  avatar: /img/avatar.jpg
+  name: 周期的力量
+  first_name: -做世界公民
+  last_name: 信息差
+  email: a18756423535@126.com
+  domain: https://ainavigation.org/
+  avatar: /img/plane.jpg
   describe: 
   rule_text: 暂不接受个人博客以外的友链申请，确保您的网站内容积极向上，文章至少30篇，原创70%以上，部署HTTPS。
 
 # About page settings
 about:
   title: 解决问题，你想各种办法，解决一个问题，然后接着解决下一个问题，循环往复，等你解决了足够多的问题，你就可以回家了。</br> You do the math. You solve one problem then you solve the next one. And then the next. And if you solve enough problems, you get to come home.</br><div align="right" >——《火星救援》</div>
-  introduction: 大家好，我是 <strong>Drace Wang</strong>，很高兴您能在浩瀚如烟的互联网世界里发现这个博客，更感谢您能够饶有兴致地浏览这个页面。建立这个 Blog 是出于兴趣爱好，我将在此分会分享一些学习笔记，可能还会分享少许图片、视频以及其他有趣东西的链接。
+  introduction: 大家好，我是 <strong>周期的力量</strong>，很高兴您能在浩瀚如烟的互联网世界里发现这个博客，更感谢您能够饶有兴致地浏览这个页面。建立这个 Blog 是出于兴趣爱好，我将在此分会分享一些学习笔记，可能还会分享少许图片、视频以及其他有趣东西的链接。
   blog: 
     <ul class="trm-list">
       <li>程序：Hexo </li>
