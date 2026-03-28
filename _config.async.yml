@@ -1,12 +1,12 @@
 # logo
 favicon:
-  logo: /img/xinxicha.ico
-  icon16: /img/xinxicha.ico
-  icon32: /img/xinxicha.ico
-  apple_touch_icon: /img/xinxicha.ico
+  logo: /img/plane.jpg
+  icon16: /img/plane.jpg
+  icon32: /img/plane.jpg
+  apple_touch_icon: /img/plane.jpg
   webmanifest: 
   visibilitychange: true
-  hidden: /img/xinxicha.ico
+  hidden: /img/plane.jpg
 
 top_bars:
   - title: menu.home
@@ -36,7 +36,7 @@ sidebar:
       url: https://www.weibo.com/u/2421168192
     - name: 知乎
       icon: fab fa-zhihu
-      url: https://www.zhihu.com/people/wang-shun-da-55
+      url: https://www.zhihu.com/people/shifenwenzi
 
 footer:
   powered:
