@@ -105,3 +105,11 @@ deploy:
   type: git
   repo: https://github.com/xiangwangjianghu/ainavigation
   branch: master
+
+# Google AdSense
+hexo_google_adsense:
+  enable: true
+  log_msg: true
+  tag_name: 'GoogleAdsense'
+  file_path: 'source/ads/article_ads.html'
+  client: ca-pub-9202416674052976

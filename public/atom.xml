@@ -1,55 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexagon</title>
+  <title>信息差</title>
   
-  <subtitle>Drace wang&#39;s blogs</subtitle>
-  <link href="http://dracewang.github.io/atom.xml" rel="self"/>
   
-  <link href="http://dracewang.github.io/"/>
-  <updated>2026-03-02T12:20:05.039Z</updated>
-  <id>http://dracewang.github.io/</id>
+  <link href="https://ainavigation.org/atom.xml" rel="self"/>
+  
+  <link href="https://ainavigation.org/"/>
+  <updated>2026-03-28T08:21:38.846Z</updated>
+  <id>https://ainavigation.org/</id>
   
   <author>
-    <name>Drace Wang</name>
+    <name>周期的力量</name>
     
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Windows下的终极AI环境：WSL2+Docker+Python</title>
-    <link href="http://dracewang.github.io/2025/12/15/Windows%E4%B8%8B%E7%9A%84%E7%BB%88%E6%9E%81AI%E7%8E%AF%E5%A2%83%EF%BC%9AWSL2+Docker+Python/"/>
-    <id>http://dracewang.github.io/2025/12/15/Windows%E4%B8%8B%E7%9A%84%E7%BB%88%E6%9E%81AI%E7%8E%AF%E5%A2%83%EF%BC%9AWSL2+Docker+Python/</id>
-    <published>2025-12-15T06:39:00.000Z</published>
-    <updated>2026-03-02T12:20:05.039Z</updated>
+    <title>桌面端和移動端連接海外互聯網的方式</title>
+    <link href="https://ainavigation.org/2026/05/21/%E6%A1%8C%E9%9D%A2%E7%AB%AF%E5%92%8C%E7%A7%BB%E5%8B%95%E7%AB%AF%E9%80%A3%E6%8E%A5%E6%B5%B7%E5%A4%96%E4%BA%92%E8%81%AF%E7%B6%B2%E7%9A%84%E6%96%B9%E5%BC%8F/"/>
+    <id>https://ainavigation.org/2026/05/21/%E6%A1%8C%E9%9D%A2%E7%AB%AF%E5%92%8C%E7%A7%BB%E5%8B%95%E7%AB%AF%E9%80%A3%E6%8E%A5%E6%B5%B7%E5%A4%96%E4%BA%92%E8%81%AF%E7%B6%B2%E7%9A%84%E6%96%B9%E5%BC%8F/</id>
+    <published>2026-05-21T06:15:00.000Z</published>
+    <updated>2026-03-28T08:21:38.846Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Windows下的终极AI环境：WSL2-Docker-Python"><a href="#Windows下的终极AI环境：WSL2-Docker-Python" class="headerlink" title="Windows下的终极AI环境：WSL2+Docker+Python"></a>Windows下的终极AI环境：WSL2+Docker+Python</h1><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>最近，AI大火，我也想凑凑热闹，搞些AI的项目，比如本地知识库，n8nAI自动工作流等等，于是我就需要这么一个AI环境。最终选择了 <strong>WSL2 (Windows Subsystem for Linux 2)</strong> 与 <strong>Docker Desktop</strong> 相结合的方案，它不仅解决了环境冲突等各方面不兼容的痛点，更带来了容器化“一次构建，到处运行”的巨大优势。</p><h3 id="第一章：奠定基石-启用并安装-WSL2（可选，Windows自带）"><a href="#第一章：奠定基石-启用并安装-WSL2（可选，Windows自带）" class="headerlink" title="第一章：奠定基石 - 启用并安装 WSL2（可选，Windows自带）"></a>第一章：奠定基石 - 启用并安装 WSL2（可选，Windows自带）</h3><p>一切的起点，是在 Windows 系统中嵌入一个真正的 Linux 内核。WSL2 通过轻量级虚拟化实现了这一点，性能远超第一代。</p><p><strong>1. 启用必要的 Windows 功能</strong></p><p>首先，必须以<strong>管理员身份</strong>打开 PowerShell 或 CMD，执行两条命令，为 WSL2 和 Docker 启用系统级的虚拟化支持。</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用 Linux 子系统功能</span></span><br><span class="line">dism.exe /online /<span class="built_in">enable-feature</span> /featurename:Microsoft<span class="literal">-Windows-Subsystem-Linux</span> /all /norestart</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用虚拟机平台（WSL2 和 Docker 的基石）</span></span><br><span class="line">dism.exe /online /<span class="built_in">enable-feature</span> /featurename:VirtualMachinePlatform /all /norestart</span><br></pre></td></tr></table></figure><p>执行完毕后，<strong>务必重启电脑</strong>，让配置生效。</p><p><em><strong>目前的windows10和windows11系统的电脑都已经集成了wsl的启动，只是没有安装linux发行版。</strong></em></p><p><strong>2. 安装 Linux 发行版</strong></p><p>重启后，我们从 Microsoft Store 安装一个 Linux 发行版，我个人推荐 <strong>Ubuntu 22.04 LTS</strong>，因为它社区庞大、生态稳定。</p><ol><li>打开 <strong>Microsoft Store</strong>。</li><li>搜索 <strong>Ubuntu 22.04 LTS</strong> 并安装。</li><li>首次启动后，系统会提示你创建一个用于 Linux 环境的用户名和密码，请务必记住，后续 <code>sudo</code> 操作全靠它。</li></ol><p><strong>3. 将 WSL2 设置为默认版本</strong>(默认安装的就是wsl2)</p><p>为确保新安装的系统运行在 WSL2 模式下，需要再次打开<strong>管理员 PowerShell</strong>，执行以下命令：</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将未来所有安装的子系统默认设置为 WSL2 版本</span></span><br><span class="line">wsl <span class="literal">--set-default-version</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查当前已安装的发行版及其版本</span></span><br><span class="line">wsl <span class="literal">-l</span> <span class="literal">-v</span></span><br></pre></td></tr></table></figure><p>执行 <code>wsl -l -v</code> 后，你应该能看到你的 Ubuntu 版本号（VERSION）显示为 <code>2</code>。</p><h3 id="第二章：容器之力-安装Docker-Desktop-并集成-WSL2"><a href="#第二章：容器之力-安装Docker-Desktop-并集成-WSL2" class="headerlink" title="第二章：容器之力 - 安装Docker Desktop 并集成 WSL2"></a>第二章：容器之力 - 安装Docker Desktop 并集成 WSL2</h3><p>由于现在多数AI项目都用到了docker，因此在linux子系统中安装docker就必不可少。Docker Desktop 是我们与容器世界交互的窗口，它与 WSL2 的深度集成是整个工作流的核心。</p><p><strong>1. 下载与安装</strong></p><p>前往 <a href="https://www.docker.com/products/docker-desktop/">Docker 官网</a> 下载 Windows 版的安装包。安装过程中，请确保勾选了 <strong>“Use WSL 2 instead of Hyper-V”</strong> 选项。</p><p><strong>2. 授权 Docker 访问 WSL</strong></p><p>这是至关重要的一步。如果配置不当，你在 WSL 的终端里将无法使用 <code>docker</code> 命令，因为它找不到 Docker 守护进程。</p><ol><li>启动 Docker Desktop。</li><li>点击界面右上角的<strong>齿轮图标 (⚙️ Settings)</strong> 进入设置。</li><li>在左侧菜单栏选择 <strong>Resources</strong> -&gt; <strong>WSL Integration</strong>。</li><li>确保 <strong>“Enable integration with my default WSL distro”</strong> 已被勾选。</li><li>在下方的发行版列表中，<strong>务必确保你的 Ubuntu 发行版开关是打开状态</strong>。</li><li>点击 <strong>Apply &amp; Restart</strong> 应用并重启 Docker 服务。</li></ol><p><img src="https://s2.loli.net/2025/12/15/wR8JYWXAjiUmeQg.png" alt="image-20251215141746390"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><strong>验证集成</strong>：<br>配置完成后，打开你的 Ubuntu 终端，输入 <code>docker --version</code>。如果命令成功返回版本号，例如 <code>Docker version 26.0.0</code>，则说明 Docker 与 WSL2 的“握手”成功了。</p><h3 id="第三章：解决顽疾-在-WSL-中配置纯净的-Python-环境"><a href="#第三章：解决顽疾-在-WSL-中配置纯净的-Python-环境" class="headerlink" title="第三章：解决顽疾 - 在 WSL 中配置纯净的 Python 环境"></a>第三章：解决顽疾 - 在 WSL 中配置纯净的 Python 环境</h3><p>很多教程在这一步只提到了 <code>sudo apt install python3</code>，但这往往是后续一系列问题的开端。Ubuntu 默认安装的 Python 环境并不“完整”，会导致 <code>pip</code> 缺失或在安装某些库时编译失败。</p><p><strong>1. 更新系统源</strong><br>这是一个好习惯，确保我们安装的都是最新的软件包。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt upgrade -y</span><br></pre></td></tr></table></figure><p><strong>2. 安装 Python “全家桶”</strong><br>为了避免后续麻烦，我们一次性把所有必需的组件都安装好。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install python3 python3-pip python3-venv python3-full build-essential -y</span><br></pre></td></tr></table></figure><ul><li><code>python3-pip</code>: Python 的包管理器，必须有。</li><li><code>python3-venv</code>: 虚拟环境支持库，现代 Python 开发的基石。</li><li><code>python3-full</code>: 包含了完整的 Python 标准库，可以避免很多意想不到的编译时依赖缺失问题。</li><li><code>build-essential</code>: 包含了 <code>gcc</code> 等编译工具，当 <code>pip</code> 安装需要编译 C 扩展的库（如 <code>numpy</code>, <code>pandas</code>）时，它是必需的。</li></ul><p><strong>3. 使用虚拟环境：告别权限报错</strong><br>为了彻底解决 <code>externally-managed-environment</code> 这类系统级环境管理报错，最佳实践是<strong>永远在虚拟环境中进行开发</strong>。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 创建并进入你的项目目录</span></span><br><span class="line"><span class="built_in">mkdir</span> ~/myproject &amp;&amp; <span class="built_in">cd</span> ~/myproject</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 在项目内创建一个名为 venv 的虚拟环境</span></span><br><span class="line">python3 -m venv venv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 激活虚拟环境</span></span><br><span class="line"><span class="built_in">source</span> venv/bin/activate</span><br></pre></td></tr></table></figure><p>激活后，你的命令行提示符会带有 <code>(venv)</code> 前缀，表明你已处于一个隔离、安全的环境中。在此环境下，<code>pip</code> 可以自由使用，不会与系统环境产生任何冲突。</p><h3 id="第四章：实战演练-Dockerfile-最佳实践"><a href="#第四章：实战演练-Dockerfile-最佳实践" class="headerlink" title="第四章：实战演练 - Dockerfile 最佳实践"></a>第四章：实战演练 - Dockerfile 最佳实践</h3><p>现在，我们拥有了完美的 Python 开发环境，可以结合 Docker 来打包和部署应用了。</p><p>在项目目录（例如 <code>~/myproject</code>）中，创建一个 <code>app.py</code> 和 <code>requirements.txt</code>，然后编写一个 <code>Dockerfile</code>：</p><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Dockerfile</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用官方的轻量级 Python 镜像</span></span><br><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.11</span>-slim</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置容器内的工作目录</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将依赖文件复制到容器中</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> requirements.txt .</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装依赖，--no-cache-dir 减小镜像体积</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> pip install --no-cache-dir -r requirements.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将项目所有文件复制到容器中</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 容器启动时执行的命令</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;python&quot;</span>, <span class="string">&quot;app.py&quot;</span>]</span></span><br></pre></td></tr></table></figure><p>在 WSL 终端中，于项目目录下执行构建和运行命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构建镜像</span></span><br><span class="line">docker build -t my-python-app .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行容器</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> my-python-app</span><br></pre></td></tr></table></figure><h3 id="第五章：“偷梁换柱”-Docker换源"><a href="#第五章：“偷梁换柱”-Docker换源" class="headerlink" title="第五章：“偷梁换柱” - Docker换源"></a>第五章：“偷梁换柱” - Docker换源</h3><p>由于某些我们众所周知的原因，国内下载docker官方的镜像源经常会遇到失败的情况，因此我们可以使用阿里的镜像加速。</p><p>可以访问阿里云官方的<a href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors">镜像加速器</a>，登录你自己阿里云账号，会获取到一个专属的加速器地址。</p><p>打开deocker desktop，在系统右下角托盘图标内右键菜单选择 Settings，打开配置窗口后左侧导航菜单选择 Docker Daemon。编辑窗口内的JSON串，填写下方加速器地址：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://xxxxxxxxxx.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>编辑完成后点击 Apply 保存按钮，等待Docker重启并应用配置的镜像加速器。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>至此，我们已经成功搭建了一套健壮且高效的本地开发环境。回顾一下，我们获得了：</p><ol><li><strong>一个高性能的 WSL2 Linux 环境</strong>：享受原生 Linux 的开发体验，与 Windows 文件系统无缝互通。</li><li><strong>一个无缝集成的 Docker 环境</strong>：可以直接在 Linux 终端中调用 Docker，进行容器的构建、运行和管理。</li><li><strong>一个纯净且完整的 Python 开发环境</strong>：通过安装“完整”组件和坚持使用 <code>venv</code> 虚拟环境，彻底根除了环境污染和权限问题。</li></ol><p>这套工作流不仅适用于 Web 后端开发或数据科学，对于需要进行 AI 模型微调（如之前的 MiniCPM 实验）等复杂任务也同样游刃有余。它将“环境配置”这个一次性的阵痛，转化为未来高效开发的长期收益。</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="桌面端和移動端連接海外互聯網的方式"><a href="#桌面端和移動端連接海外互聯網的方式" class="headerlink" title="桌面端和移動端連接海外互聯網的方式"></a>桌面端和移動端連接海外互聯網的方式</h1><h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>想要獲取海外信息,第一步就是訪問海外網站,但是由於衆所周知的原因,中國大陸難以直接訪問相當多的海外網站,這就需要藉助一些技術手段,跨越這個門檻,本文介紹一下筆者使用的一些工具,希望能幫到各位克服這個困難.</p><h3 id="第一章：軟件安裝"><a href="#第一章：軟件安裝" class="headerlink" title="第一章：軟件安裝"></a>第一章：軟件安裝</h3><p><a href="https://github.com/">Github</a> 是出海必知的網站,所有的軟件都通過這個平臺下載安裝.</p><p><a href="https://www.v2ray.com/">v2ray</a> (需科學上網)是訪問海外網站的網絡代理核心,我們可以安裝已內置 <code>v2ray</code>的客戶端軟件</p><p><strong>1. 桌面端軟件</strong></p><p>桌面端 <code>v2ray</code>客戶端軟件有很多,這裏最推薦<a href="https://github.com/2dust/v2rayN/tags">v2rayN</a>, <code>v2rayN</code>支持 <code>Windows</code>, <code>Linux</code>, <code>MacOS</code> 三大平臺, 同時也支持 <code>Clash</code>, <code>sing_box</code> 等其他核心,各位可以自行探索.</p><p><strong>2. 移動端軟件</strong></p><p>移動端 <code>v2ray</code>客戶端軟件分蘋果和安卓兩大平臺,蘋果端推薦<a href="hhttps://apps.apple.com/us/app/v2box-v2ray-client/id6446814690">V2BOX</a>, 安卓端推薦<a href="https://github.com/2dust/v2rayNG/tags">v2rayNG</a>.<br>注意安卓端可以通過 <a href="https://github.com/">Github</a> 下載安裝, 也可以通過 <code>谷歌商店</code>下載安裝, 但是蘋果端只能通過 <code>App Store下載</code>, 並且 <code>App Store</code>必須切換至海外地區,比如港區或者美區.</p><h3 id="第二章：獲取訂閱節點"><a href="#第二章：獲取訂閱節點" class="headerlink" title="第二章：獲取訂閱節點"></a>第二章：獲取訂閱節點</h3><p><code>v2ray</code>客戶端軟件既支持設置單個網絡代理節點, 也支持更爲強大的節點訂閱.節點訂閱會獲取多個代理節點,可測速驗證節點的有效性和網速,支持隨時更新節點.</p><p><strong>1. 免費節點訂閱</strong></p><p><a href="https://github.com/">Github</a>上有不少免費的 <code>v2ray</code>節點訂閱, 剛開始可以試用一下,這裏推薦幾個.</p><ul><li><a href="https://github.com/free-nodes/v2rayfree">v2rayfree</a></li><li><a href="https://github.com/free18/v2ray">free18</a></li><li><a href="https://github.com/shaoyouvip/free">shaoyouvip</a></li></ul><p>免費節點訂閱可以做爲臨時救急使用,更多的免費訂閱各位可以通過 <code>Google</code>搜索關鍵字 <code>v2ray 訂閱 github</code>獲取</p><p><strong>2. 穩定付費訂閱</strong></p><p>免費節點訂閱雖然不花錢,但是極不穩定,節點失效,網絡龜速,時有發生.筆者經歷了一段免費使用經歷後,果斷轉到使用付費訂閱服務,終於不用再擔心 <code>斷網</code>了,這裏推薦一下自己使用的服務,這個平臺性價比比較高,我已經穩定使用了三年,不用擔心跑路的風險.</p><p><a href="https://www.dageyun.net/#/register?code=pssVo7mC">大哥雲</a>(需科學上網,通過免費節點連通), 註冊好之後點擊左側購買訂閱, 推薦購買 <code>年付套餐A 300 GB</code>, 支持支付寶微信, 這個套餐最划算, 可以輸入9折優惠券：<code>mcuE8uOq</code></p><p><img src="/../img/posts/1/dgy1.png" alt="dgy1"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p>購買成功後, 點擊左側儀表盤,再點擊一鍵訂閱,可以複製訂閱地址.</p><p><img src="/../img/posts/1/dgy2.png" alt="dgy2"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><h3 id="第三章：v2ray客戶端軟件使用"><a href="#第三章：v2ray客戶端軟件使用" class="headerlink" title="第三章：v2ray客戶端軟件使用"></a>第三章：<code>v2ray</code>客戶端軟件使用</h3><p>這裏就以 <code>Windows</code> 端 <code>v2rayN</code> 爲例演示訂閱地址的使用</p><p><strong>1. 添加節點訂閱</strong><br>先通過<a href="https://github.com/2dust/v2rayN/tags">Github</a>下載安裝好 <code>v2rayN</code></p><p><img src="/../img/posts/1/v2rayN5.png" alt="v2rayN5"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p>然後打開軟件按照圖示添加和更新節點訂閱</p><p><img src="/../img/posts/1/v2rayN1.jpeg" alt="v2rayN1"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><img src="/../img/posts/1/v2rayN2.jpeg" alt="v2rayN2"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><img src="/../img/posts/1/v2rayN3.jpeg" alt="v2rayN3"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><img src="/../img/posts/1/v2rayN4.jpeg" alt="v2rayN4"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><strong>2. 監聽端口</strong></p><p>設置菜單裏面的參數設置可以更改默認的本地HTTP(S)監聽端口</p><p><img src="/../img/posts/1/v2rayN6.png" alt="v2rayN6"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><strong>3. 測試排序節點</strong></p><p>在所有節點列表右鍵一鍵測試節點延遲, 測試完畢後選擇最快的節點.</p><p><img src="/../img/posts/1/v2rayN7.jpeg" alt="v2rayN7"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><strong>3. 代理和路由</strong></p><p>設置系統代理, 可以讓整臺電腦網絡環境都能連接外網.在軟件下方配置系統代理,此時軟體的圖標會標稱紅色,至此就可以開始使用了,打開 <a href="https://www.google.com/">Google</a> 試試能不能訪問吧.</p><p>也可以不配置系統代理, 那就需要在瀏覽器中安裝 <code>Proxy SwitchyOmega</code> 插件以監聽代理, 具體教程參考 <code>Proxy SwitchyOmega</code> 安裝指南.</p><p>路由的功能是將入站數據按需求由不同的出站連接發出,以達到按需代理的目的.這一功能的常見用法是分流國內外流量,可以通過內部機製判斷不同地區的流量,然後將它們發送到不同的出站代理,有以下三種路由模式可以選擇.</p><ul><li>繞過大陸(Whitelist)模式:即原先版本裡的白名單,只是白名單內的網站通過節點伺服器代理上網</li><li>黑名單(Blacklist)模式:除了黑名單內的網站,其餘網站都通過節點伺服器代理上網</li><li>全局(Global)模式:所有網站通過節點伺服器代理上網</li></ul><p><img src="/../img/posts/1/v2rayN8.png" alt="v2rayN8"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><strong>3. 開機自啟和更新</strong></p><p>點擊設置後進入參數設置, 選擇v2rayN設置勾選上開機自動啟動.</p><p><img src="/../img/posts/1/v2rayN9.jpeg" alt="v2rayN9"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p><img src="/../img/posts/1/v2rayN10.jpeg" alt="v2rayN10"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p>點擊檢查更新菜單自動更新軟件</p><p><img src="/../img/posts/1/v2rayN11.jpeg" alt="v2rayN11"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p><p>最後就可以暢通訪問 <a href="https://www.google.com/">Google</a> 了.</p><p><img src="/../img/posts/1/google.png" alt="google"  data-tag='post-image' loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;Windows下的终极AI环境：WSL2-Docker-Python&quot;&gt;&lt;a href=&quot;#Windows下的终极AI环境：WSL2-Docker-Python&quot; class=&quot;headerlink&quot; title=&quot;Windows下的终极AI环境：WSL2+Doc</summary>
+    <summary type="html">&lt;h1 id=&quot;桌面端和移動端連接海外互聯網的方式&quot;&gt;&lt;a href=&quot;#桌面端和移動端連接海外互聯網的方式&quot; class=&quot;headerlink&quot; title=&quot;桌面端和移動端連接海外互聯網的方式&quot;&gt;&lt;/a&gt;桌面端和移動端連接海外互聯網的方式&lt;/h1&gt;&lt;h3 id=&quot;写在前面&quot;</summary>
       
     
     
     
-    <category term="AI" scheme="http://dracewang.github.io/categories/AI/"/>
+    <category term="上網" scheme="https://ainavigation.org/categories/%E4%B8%8A%E7%B6%B2/"/>
     
     
-    <category term="windows" scheme="http://dracewang.github.io/tags/windows/"/>
+    <category term="上網" scheme="https://ainavigation.org/tags/%E4%B8%8A%E7%B6%B2/"/>
     
-    <category term="docker" scheme="http://dracewang.github.io/tags/docker/"/>
+    <category term="代理" scheme="https://ainavigation.org/tags/%E4%BB%A3%E7%90%86/"/>
     
-    <category term="wsl2" scheme="http://dracewang.github.io/tags/wsl2/"/>
-    
-    <category term="python" scheme="http://dracewang.github.io/tags/python/"/>
+    <category term="訂閱" scheme="https://ainavigation.org/tags/%E8%A8%82%E9%96%B1/"/>
     
   </entry>
   
   <entry>
     <title>一次曲折的 SoftEther VPN 调试之旅：从无法获取 IP 到路由迷踪</title>
-    <link href="http://dracewang.github.io/2025/12/15/%E4%B8%80%E6%AC%A1%E6%9B%B2%E6%8A%98%E7%9A%84SoftEtherVPN%E8%B0%83%E8%AF%95%E4%B9%8B%E6%97%85%EF%BC%9A%E4%BB%8E%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96IP%E5%88%B0%E8%B7%AF%E7%94%B1%E8%BF%B7%E8%B8%AA/"/>
-    <id>http://dracewang.github.io/2025/12/15/%E4%B8%80%E6%AC%A1%E6%9B%B2%E6%8A%98%E7%9A%84SoftEtherVPN%E8%B0%83%E8%AF%95%E4%B9%8B%E6%97%85%EF%BC%9A%E4%BB%8E%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96IP%E5%88%B0%E8%B7%AF%E7%94%B1%E8%BF%B7%E8%B8%AA/</id>
+    <link href="https://ainavigation.org/2025/12/15/%E4%B8%80%E6%AC%A1%E6%9B%B2%E6%8A%98%E7%9A%84SoftEtherVPN%E8%B0%83%E8%AF%95%E4%B9%8B%E6%97%85%EF%BC%9A%E4%BB%8E%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96IP%E5%88%B0%E8%B7%AF%E7%94%B1%E8%BF%B7%E8%B8%AA/"/>
+    <id>https://ainavigation.org/2025/12/15/%E4%B8%80%E6%AC%A1%E6%9B%B2%E6%8A%98%E7%9A%84SoftEtherVPN%E8%B0%83%E8%AF%95%E4%B9%8B%E6%97%85%EF%BC%9A%E4%BB%8E%E6%97%A0%E6%B3%95%E8%8E%B7%E5%8F%96IP%E5%88%B0%E8%B7%AF%E7%94%B1%E8%BF%B7%E8%B8%AA/</id>
     <published>2025-12-15T05:22:00.000Z</published>
     <updated>2026-03-02T12:20:05.040Z</updated>
     
@@ -63,21 +61,21 @@
     
     
     
-    <category term="IT" scheme="http://dracewang.github.io/categories/IT/"/>
+    <category term="IT" scheme="https://ainavigation.org/categories/IT/"/>
     
     
-    <category term="openwrt" scheme="http://dracewang.github.io/tags/openwrt/"/>
+    <category term="openwrt" scheme="https://ainavigation.org/tags/openwrt/"/>
     
-    <category term="softetherVPN" scheme="http://dracewang.github.io/tags/softetherVPN/"/>
+    <category term="softetherVPN" scheme="https://ainavigation.org/tags/softetherVPN/"/>
     
-    <category term="VPN" scheme="http://dracewang.github.io/tags/VPN/"/>
+    <category term="VPN" scheme="https://ainavigation.org/tags/VPN/"/>
     
   </entry>
   
   <entry>
     <title>在 Kali OS 上安装与配置 Strix 实践笔记</title>
-    <link href="http://dracewang.github.io/2025/12/03/%E5%9C%A8kali%20os%E4%B8%8A%E5%AE%89%E8%A3%85strix/"/>
-    <id>http://dracewang.github.io/2025/12/03/%E5%9C%A8kali%20os%E4%B8%8A%E5%AE%89%E8%A3%85strix/</id>
+    <link href="https://ainavigation.org/2025/12/03/%E5%9C%A8kali%20os%E4%B8%8A%E5%AE%89%E8%A3%85strix/"/>
+    <id>https://ainavigation.org/2025/12/03/%E5%9C%A8kali%20os%E4%B8%8A%E5%AE%89%E8%A3%85strix/</id>
     <published>2025-12-03T06:13:00.000Z</published>
     <updated>2026-03-02T12:20:05.044Z</updated>
     
@@ -91,21 +89,21 @@
     
     
     
-    <category term="cybersecurity" scheme="http://dracewang.github.io/categories/cybersecurity/"/>
+    <category term="cybersecurity" scheme="https://ainavigation.org/categories/cybersecurity/"/>
     
     
-    <category term="kali" scheme="http://dracewang.github.io/tags/kali/"/>
+    <category term="kali" scheme="https://ainavigation.org/tags/kali/"/>
     
-    <category term="Strix" scheme="http://dracewang.github.io/tags/Strix/"/>
+    <category term="Strix" scheme="https://ainavigation.org/tags/Strix/"/>
     
-    <category term="security" scheme="http://dracewang.github.io/tags/security/"/>
+    <category term="security" scheme="https://ainavigation.org/tags/security/"/>
     
   </entry>
   
   <entry>
     <title>群晖Docker安装Gitlab</title>
-    <link href="http://dracewang.github.io/2024/06/23/%E7%BE%A4%E6%99%96Docker%E5%AE%89%E8%A3%85Gitlab/"/>
-    <id>http://dracewang.github.io/2024/06/23/%E7%BE%A4%E6%99%96Docker%E5%AE%89%E8%A3%85Gitlab/</id>
+    <link href="https://ainavigation.org/2024/06/23/%E7%BE%A4%E6%99%96Docker%E5%AE%89%E8%A3%85Gitlab/"/>
+    <id>https://ainavigation.org/2024/06/23/%E7%BE%A4%E6%99%96Docker%E5%AE%89%E8%A3%85Gitlab/</id>
     <published>2024-06-23T03:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.044Z</updated>
     
@@ -119,21 +117,21 @@
     
     
     
-    <category term="Synology" scheme="http://dracewang.github.io/categories/Synology/"/>
+    <category term="Synology" scheme="https://ainavigation.org/categories/Synology/"/>
     
     
-    <category term="Synology" scheme="http://dracewang.github.io/tags/Synology/"/>
+    <category term="Synology" scheme="https://ainavigation.org/tags/Synology/"/>
     
-    <category term="Docker" scheme="http://dracewang.github.io/tags/Docker/"/>
+    <category term="Docker" scheme="https://ainavigation.org/tags/Docker/"/>
     
-    <category term="Gitlab" scheme="http://dracewang.github.io/tags/Gitlab/"/>
+    <category term="Gitlab" scheme="https://ainavigation.org/tags/Gitlab/"/>
     
   </entry>
   
   <entry>
     <title>在obsidian中内嵌滴答清单</title>
-    <link href="http://dracewang.github.io/2024/06/21/%E5%9C%A8obsidian%E4%B8%AD%E5%86%85%E5%B5%8C%E6%BB%B4%E7%AD%94%E6%B8%85%E5%8D%95/"/>
-    <id>http://dracewang.github.io/2024/06/21/%E5%9C%A8obsidian%E4%B8%AD%E5%86%85%E5%B5%8C%E6%BB%B4%E7%AD%94%E6%B8%85%E5%8D%95/</id>
+    <link href="https://ainavigation.org/2024/06/21/%E5%9C%A8obsidian%E4%B8%AD%E5%86%85%E5%B5%8C%E6%BB%B4%E7%AD%94%E6%B8%85%E5%8D%95/"/>
+    <id>https://ainavigation.org/2024/06/21/%E5%9C%A8obsidian%E4%B8%AD%E5%86%85%E5%B5%8C%E6%BB%B4%E7%AD%94%E6%B8%85%E5%8D%95/</id>
     <published>2024-06-21T07:37:00.000Z</published>
     <updated>2026-03-02T12:20:05.044Z</updated>
     
@@ -147,25 +145,25 @@
     
     
     
-    <category term="日程管理" scheme="http://dracewang.github.io/categories/%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
+    <category term="日程管理" scheme="https://ainavigation.org/categories/%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
     
     
-    <category term="GTD" scheme="http://dracewang.github.io/tags/GTD/"/>
+    <category term="GTD" scheme="https://ainavigation.org/tags/GTD/"/>
     
-    <category term="todo" scheme="http://dracewang.github.io/tags/todo/"/>
+    <category term="todo" scheme="https://ainavigation.org/tags/todo/"/>
     
-    <category term="日历" scheme="http://dracewang.github.io/tags/%E6%97%A5%E5%8E%86/"/>
+    <category term="日历" scheme="https://ainavigation.org/tags/%E6%97%A5%E5%8E%86/"/>
     
-    <category term="obsidian" scheme="http://dracewang.github.io/tags/obsidian/"/>
+    <category term="obsidian" scheme="https://ainavigation.org/tags/obsidian/"/>
     
-    <category term="滴答清单" scheme="http://dracewang.github.io/tags/%E6%BB%B4%E7%AD%94%E6%B8%85%E5%8D%95/"/>
+    <category term="滴答清单" scheme="https://ainavigation.org/tags/%E6%BB%B4%E7%AD%94%E6%B8%85%E5%8D%95/"/>
     
   </entry>
   
   <entry>
     <title>各种个人日程管理GTD对比</title>
-    <link href="http://dracewang.github.io/2024/06/19/%E5%90%84%E7%A7%8D%E4%B8%AA%E4%BA%BA%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86GTD%E5%AF%B9%E6%AF%94/"/>
-    <id>http://dracewang.github.io/2024/06/19/%E5%90%84%E7%A7%8D%E4%B8%AA%E4%BA%BA%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86GTD%E5%AF%B9%E6%AF%94/</id>
+    <link href="https://ainavigation.org/2024/06/19/%E5%90%84%E7%A7%8D%E4%B8%AA%E4%BA%BA%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86GTD%E5%AF%B9%E6%AF%94/"/>
+    <id>https://ainavigation.org/2024/06/19/%E5%90%84%E7%A7%8D%E4%B8%AA%E4%BA%BA%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86GTD%E5%AF%B9%E6%AF%94/</id>
     <published>2024-06-19T05:42:00.000Z</published>
     <updated>2026-03-02T12:20:05.041Z</updated>
     
@@ -179,25 +177,25 @@
     
     
     
-    <category term="日程管理" scheme="http://dracewang.github.io/categories/%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
+    <category term="日程管理" scheme="https://ainavigation.org/categories/%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
     
     
-    <category term="GTD" scheme="http://dracewang.github.io/tags/GTD/"/>
+    <category term="GTD" scheme="https://ainavigation.org/tags/GTD/"/>
     
-    <category term="日程管理" scheme="http://dracewang.github.io/tags/%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
+    <category term="日程管理" scheme="https://ainavigation.org/tags/%E6%97%A5%E7%A8%8B%E7%AE%A1%E7%90%86/"/>
     
-    <category term="todo" scheme="http://dracewang.github.io/tags/todo/"/>
+    <category term="todo" scheme="https://ainavigation.org/tags/todo/"/>
     
-    <category term="日历" scheme="http://dracewang.github.io/tags/%E6%97%A5%E5%8E%86/"/>
+    <category term="日历" scheme="https://ainavigation.org/tags/%E6%97%A5%E5%8E%86/"/>
     
-    <category term="calendar" scheme="http://dracewang.github.io/tags/calendar/"/>
+    <category term="calendar" scheme="https://ainavigation.org/tags/calendar/"/>
     
   </entry>
   
   <entry>
     <title>利用Hexo博客框架结合Github Page创建自己的博客</title>
-    <link href="http://dracewang.github.io/2024/06/14/%E5%88%A9%E7%94%A8Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E7%BB%93%E5%90%88Github%20Page%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/"/>
-    <id>http://dracewang.github.io/2024/06/14/%E5%88%A9%E7%94%A8Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E7%BB%93%E5%90%88Github%20Page%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</id>
+    <link href="https://ainavigation.org/2024/06/14/%E5%88%A9%E7%94%A8Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E7%BB%93%E5%90%88Github%20Page%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/"/>
+    <id>https://ainavigation.org/2024/06/14/%E5%88%A9%E7%94%A8Hexo%E5%8D%9A%E5%AE%A2%E6%A1%86%E6%9E%B6%E7%BB%93%E5%90%88Github%20Page%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</id>
     <published>2024-06-14T09:00:00.000Z</published>
     <updated>2024-06-24T09:06:00.000Z</updated>
     
@@ -211,21 +209,21 @@
     
     
     
-    <category term="Blog" scheme="http://dracewang.github.io/categories/Blog/"/>
+    <category term="Blog" scheme="https://ainavigation.org/categories/Blog/"/>
     
     
-    <category term="Hexo" scheme="http://dracewang.github.io/tags/Hexo/"/>
+    <category term="Hexo" scheme="https://ainavigation.org/tags/Hexo/"/>
     
-    <category term="GitHub" scheme="http://dracewang.github.io/tags/GitHub/"/>
+    <category term="GitHub" scheme="https://ainavigation.org/tags/GitHub/"/>
     
-    <category term="page" scheme="http://dracewang.github.io/tags/page/"/>
+    <category term="page" scheme="https://ainavigation.org/tags/page/"/>
     
   </entry>
   
   <entry>
     <title>Android高通平台查找指定nv值</title>
-    <link href="http://dracewang.github.io/2024/06/14/%E9%AB%98%E9%80%9A%E6%9F%A5%E6%89%BE%E6%8C%87%E5%AE%9Anv%E5%80%BC/"/>
-    <id>http://dracewang.github.io/2024/06/14/%E9%AB%98%E9%80%9A%E6%9F%A5%E6%89%BE%E6%8C%87%E5%AE%9Anv%E5%80%BC/</id>
+    <link href="https://ainavigation.org/2024/06/14/%E9%AB%98%E9%80%9A%E6%9F%A5%E6%89%BE%E6%8C%87%E5%AE%9Anv%E5%80%BC/"/>
+    <id>https://ainavigation.org/2024/06/14/%E9%AB%98%E9%80%9A%E6%9F%A5%E6%89%BE%E6%8C%87%E5%AE%9Anv%E5%80%BC/</id>
     <published>2024-06-14T09:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.045Z</updated>
     
@@ -239,19 +237,19 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="nv" scheme="http://dracewang.github.io/tags/nv/"/>
+    <category term="nv" scheme="https://ainavigation.org/tags/nv/"/>
     
-    <category term="qcom" scheme="http://dracewang.github.io/tags/qcom/"/>
+    <category term="qcom" scheme="https://ainavigation.org/tags/qcom/"/>
     
   </entry>
   
   <entry>
     <title>用Obsidian记录学习Obsidian</title>
-    <link href="http://dracewang.github.io/2024/06/07/%E7%94%A8Obsidian%E8%AE%B0%E5%BD%95%E5%AD%A6%E4%B9%A0Obsidian/"/>
-    <id>http://dracewang.github.io/2024/06/07/%E7%94%A8Obsidian%E8%AE%B0%E5%BD%95%E5%AD%A6%E4%B9%A0Obsidian/</id>
+    <link href="https://ainavigation.org/2024/06/07/%E7%94%A8Obsidian%E8%AE%B0%E5%BD%95%E5%AD%A6%E4%B9%A0Obsidian/"/>
+    <id>https://ainavigation.org/2024/06/07/%E7%94%A8Obsidian%E8%AE%B0%E5%BD%95%E5%AD%A6%E4%B9%A0Obsidian/</id>
     <published>2024-06-07T05:29:00.000Z</published>
     <updated>2026-03-02T12:20:05.044Z</updated>
     
@@ -265,21 +263,21 @@
     
     
     
-    <category term="Learn" scheme="http://dracewang.github.io/categories/Learn/"/>
+    <category term="Learn" scheme="https://ainavigation.org/categories/Learn/"/>
     
     
-    <category term="obsidian" scheme="http://dracewang.github.io/tags/obsidian/"/>
+    <category term="obsidian" scheme="https://ainavigation.org/tags/obsidian/"/>
     
-    <category term="note" scheme="http://dracewang.github.io/tags/note/"/>
+    <category term="note" scheme="https://ainavigation.org/tags/note/"/>
     
-    <category term="blog" scheme="http://dracewang.github.io/tags/blog/"/>
+    <category term="blog" scheme="https://ainavigation.org/tags/blog/"/>
     
   </entry>
   
   <entry>
     <title>在Kali上编译Android系统</title>
-    <link href="http://dracewang.github.io/2020/06/12/%E5%9C%A8Kali%E4%B8%8A%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://dracewang.github.io/2020/06/12/%E5%9C%A8Kali%E4%B8%8A%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F/</id>
+    <link href="https://ainavigation.org/2020/06/12/%E5%9C%A8Kali%E4%B8%8A%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F/"/>
+    <id>https://ainavigation.org/2020/06/12/%E5%9C%A8Kali%E4%B8%8A%E7%BC%96%E8%AF%91Android%E7%B3%BB%E7%BB%9F/</id>
     <published>2020-06-12T04:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.041Z</updated>
     
@@ -296,19 +294,19 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="kali" scheme="http://dracewang.github.io/tags/kali/"/>
+    <category term="kali" scheme="https://ainavigation.org/tags/kali/"/>
     
-    <category term="android" scheme="http://dracewang.github.io/tags/android/"/>
+    <category term="android" scheme="https://ainavigation.org/tags/android/"/>
     
   </entry>
   
   <entry>
     <title>在Linux系统上安装Battery Historian解析Bugreport</title>
-    <link href="http://dracewang.github.io/2020/06/12/%E5%9C%A8Linux%E7%B3%BB%E7%BB%9F%E4%B8%8A%E5%AE%89%E8%A3%85Battery%20Historian%E8%A7%A3%E6%9E%90Bugreport/"/>
-    <id>http://dracewang.github.io/2020/06/12/%E5%9C%A8Linux%E7%B3%BB%E7%BB%9F%E4%B8%8A%E5%AE%89%E8%A3%85Battery%20Historian%E8%A7%A3%E6%9E%90Bugreport/</id>
+    <link href="https://ainavigation.org/2020/06/12/%E5%9C%A8Linux%E7%B3%BB%E7%BB%9F%E4%B8%8A%E5%AE%89%E8%A3%85Battery%20Historian%E8%A7%A3%E6%9E%90Bugreport/"/>
+    <id>https://ainavigation.org/2020/06/12/%E5%9C%A8Linux%E7%B3%BB%E7%BB%9F%E4%B8%8A%E5%AE%89%E8%A3%85Battery%20Historian%E8%A7%A3%E6%9E%90Bugreport/</id>
     <published>2020-06-12T04:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.044Z</updated>
     
@@ -323,27 +321,27 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="linux" scheme="http://dracewang.github.io/tags/linux/"/>
+    <category term="linux" scheme="https://ainavigation.org/tags/linux/"/>
     
-    <category term="android" scheme="http://dracewang.github.io/tags/android/"/>
+    <category term="android" scheme="https://ainavigation.org/tags/android/"/>
     
-    <category term="battery historian" scheme="http://dracewang.github.io/tags/battery-historian/"/>
+    <category term="battery historian" scheme="https://ainavigation.org/tags/battery-historian/"/>
     
-    <category term="bugreport" scheme="http://dracewang.github.io/tags/bugreport/"/>
+    <category term="bugreport" scheme="https://ainavigation.org/tags/bugreport/"/>
     
   </entry>
   
   <entry>
     <title>git 代码管理工具常用命令</title>
-    <link href="http://dracewang.github.io/2019/09/18/git%20%E4%BB%A3%E7%A0%81%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
-    <id>http://dracewang.github.io/2019/09/18/git%20%E4%BB%A3%E7%A0%81%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
+    <link href="https://ainavigation.org/2019/09/18/git%20%E4%BB%A3%E7%A0%81%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    <id>https://ainavigation.org/2019/09/18/git%20%E4%BB%A3%E7%A0%81%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</id>
     <published>2019-09-18T04:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.040Z</updated>
     
-    <content type="html"><![CDATA[<p>首先区分git是分布式代码管理系统，每个计算机上或者说每个克隆的git仓库都是完整的，因此同一个本地克隆的远程的git仓库的关系是，本地对应远程（远端，非本机的），因此git的命令行也就对应了本地仓库的操作和同步到远程仓库的操作。</p><h2 id="git基础配置"><a href="#git基础配置" class="headerlink" title="git基础配置"></a>git基础配置</h2><p>假设在git服务器上设置的用户名是：gituser1，邮箱是：<a href="mailto:&#103;&#105;&#x74;&#x75;&#115;&#x65;&#x72;&#x31;&#64;&#x67;&#105;&#116;&#x2e;&#99;&#x6f;&#x6d;">&#103;&#105;&#x74;&#x75;&#115;&#x65;&#x72;&#x31;&#64;&#x67;&#105;&#116;&#x2e;&#99;&#x6f;&#x6d;</a></p><h3 id="配置git提交时候的全局用户名"><a href="#配置git提交时候的全局用户名" class="headerlink" title="配置git提交时候的全局用户名"></a>配置git提交时候的全局用户名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitconfig --global user.name gituser1</span><br></pre></td></tr></table></figure><h3 id="配置git提交时候的全局邮箱"><a href="#配置git提交时候的全局邮箱" class="headerlink" title="配置git提交时候的全局邮箱"></a>配置git提交时候的全局邮箱</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email gituser1@git.com</span><br></pre></td></tr></table></figure><h3 id="配置gerrit的review"><a href="#配置gerrit的review" class="headerlink" title="配置gerrit的review"></a>配置gerrit的review</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global review.gerrit.example.com:8081.username yourname</span><br></pre></td></tr></table></figure><h2 id="常用仓库操作"><a href="#常用仓库操作" class="headerlink" title="常用仓库操作"></a>常用仓库操作</h2><h3 id="创建git库"><a href="#创建git库" class="headerlink" title="创建git库"></a>创建git库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure><h3 id="查看本地仓库分支"><a href="#查看本地仓库分支" class="headerlink" title="查看本地仓库分支"></a>查看本地仓库分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure><p>想要查看对应的远端仓库分支可以用<code>git branch -a</code>来查看</p><h3 id="拉去仓库并创建分支"><a href="#拉去仓库并创建分支" class="headerlink" title="拉去仓库并创建分支"></a>拉去仓库并创建分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b master master_copy</span><br></pre></td></tr></table></figure><p>mater对应是远程仓库的分支名，master_copy是我们需要创建的本地仓库的分支名</p><h3 id="查看当前git库状态"><a href="#查看当前git库状态" class="headerlink" title="查看当前git库状态"></a>查看当前git库状态</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure><p>显示出红色的文件代表当前仓库中有文件与上一次同步状态不同<br>如果没有文件显示，且没有更改，会显示当前分支与远端分支一致，没有需要提交的更改。<br>如果显示没有更改，但是当前分支与远端分支不同步，则需要同步远端分支</p><p><em>养成良好的习惯提交修改代码前先把本地仓库与远端仓库同步</em></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure><p>查看当前git仓库对应的远程git仓库</p><h3 id="同步本地仓库与远端仓库"><a href="#同步本地仓库与远端仓库" class="headerlink" title="同步本地仓库与远端仓库"></a>同步本地仓库与远端仓库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure><p>这个时候有可能报错，说明本地仓库之前就已经发生混乱，一般是本地有修改，又去同步，产生文件修改冲突后没有解决，如果确认可以把本地修改重置，则可以使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase</span><br></pre></td></tr></table></figure><p> 这个命令会把本地仓库换一个基础，可以认为是仓库是需要一个地皮的，rebase的作用就是把仓库换个干净的地皮重新造一个一样的与远程一样的仓库，　这样新的仓库就与远端的仓库完全一致了。</p><p>但是还有情况会出现本地仓库领先与远端仓库，而我们又不需要本地的修改，就可以把远端仓库检查校对拷贝过来。比如文件名为temp.log（相当于是把本地改动回退到远端文件版本）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout　temp.log</span><br></pre></td></tr></table></figure><p>将当前文件夹内所有文件都回退到远端git仓库</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout .</span><br></pre></td></tr></table></figure><hr><p>当修改了名为temp.log的文件后</p><h3 id="对比本地修改文件与本地仓库之间的区别"><a href="#对比本地修改文件与本地仓库之间的区别" class="headerlink" title="对比本地修改文件与本地仓库之间的区别"></a>对比本地修改文件与本地仓库之间的区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff temp.log</span><br></pre></td></tr></table></figure><p> 终端会显示出该文件的修改点，对应增删，如果开启了git的高亮显示，会有绿色表示添加，红色表示删除</p><p> 可以使用<code>git config --global color.ui true</code>来开启git颜色高亮</p><h3 id="添加文件-该文件在当前目录下-到当前git仓库（确切说是添加到了本地仓库的提交暂存区）"><a href="#添加文件-该文件在当前目录下-到当前git仓库（确切说是添加到了本地仓库的提交暂存区）" class="headerlink" title="添加文件(该文件在当前目录下)到当前git仓库（确切说是添加到了本地仓库的提交暂存区）"></a>添加文件(该文件在当前目录下)到当前git仓库（确切说是添加到了本地仓库的提交暂存区）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add temp.log</span><br></pre></td></tr></table></figure><p>将当前文件夹内所有文件都添加到当前git仓库</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure><p> 将文件添加到当前git仓库后，再使用<code>git status</code>查看状态，会发现文件对应路径会从红色变成绿色。</p><h3 id="将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）"><a href="#将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）" class="headerlink" title="将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）"></a>将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit temp.log</span><br></pre></td></tr></table></figure><p>&amp;</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit .</span><br></pre></td></tr></table></figure><p>&amp;</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit temp.log -m &quot;comit message(此引号内应填入提交信息)&quot;</span><br></pre></td></tr></table></figure><p> 提交后可以可以通过<code>git log</code>命令查看这个git仓库的历史记录</p><h3 id="查看当前本地仓库的历史提交记录"><a href="#查看当前本地仓库的历史提交记录" class="headerlink" title="查看当前本地仓库的历史提交记录"></a>查看当前本地仓库的历史提交记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure><h3 id="将本地仓库回退到历史记录中史上一次的修改状态"><a href="#将本地仓库回退到历史记录中史上一次的修改状态" class="headerlink" title="将本地仓库回退到历史记录中史上一次的修改状态"></a>将本地仓库回退到历史记录中史上一次的修改状态</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD^</span><br></pre></td></tr></table></figure><p> 解释下这个命令，reset本身可以重置，而HEAD表示分支的头，^表示分支头部的上一个位置，所以是回退到历史记录的上一条，也就是说如果你<code>git pull</code>后本地没有修改，但是这个时候执行了本条命令，那么你当前的本地仓库还是会回到历史记录中的上一个位置（尽管这个提交不是你操作的）</p><h3 id="修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）"><a href="#修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）" class="headerlink" title="修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）"></a>修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure><p>可以使用<code>git reset HEAD^</code>命令使当前仓库回退到历史记录中上次的提交状态，这个时候比如说我们的temp.log已经commit后，使用这个resset命令会让我们的commit失效，文件状态会变成add之前的状态，这个时候我们可以修改temp.log然后使用<code>git commit --amend</code>合并上一次提交。</p><h2 id="其他git命令（进阶）"><a href="#其他git命令（进阶）" class="headerlink" title="其他git命令（进阶）"></a>其他git命令（进阶）</h2><h3 id="显示上一次提交的日志"><a href="#显示上一次提交的日志" class="headerlink" title="显示上一次提交的日志"></a>显示上一次提交的日志</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show HEAD^</span><br></pre></td></tr></table></figure><h3 id="显示某次提交的日志"><a href="#显示某次提交的日志" class="headerlink" title="显示某次提交的日志"></a>显示某次提交的日志</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show dfb02e6e4f2f7b573337763e5c0013802e392818</span><br></pre></td></tr></table></figure><h3 id="对比上一次提交的不同"><a href="#对比上一次提交的不同" class="headerlink" title="对比上一次提交的不同"></a>对比上一次提交的不同</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff HEAD^</span><br></pre></td></tr></table></figure><h3 id="显示所有已添加index（暂存）但还未commit的变更"><a href="#显示所有已添加index（暂存）但还未commit的变更" class="headerlink" title="显示所有已添加index（暂存）但还未commit的变更"></a>显示所有已添加index（暂存）但还未commit的变更</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff --cached</span><br></pre></td></tr></table></figure><h3 id="切换到dev分支（当前不在dev分支）"><a href="#切换到dev分支（当前不在dev分支）" class="headerlink" title="切换到dev分支（当前不在dev分支）"></a>切换到dev分支（当前不在dev分支）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev</span><br></pre></td></tr></table></figure><h3 id="获取所有远程分支"><a href="#获取所有远程分支" class="headerlink" title="获取所有远程分支"></a>获取所有远程分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch</span><br></pre></td></tr></table></figure><h3 id="删除本地分支"><a href="#删除本地分支" class="headerlink" title="删除本地分支"></a>删除本地分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d dev</span><br></pre></td></tr></table></figure><p>强制删除 <code>git branch -D dev</code></p><h3 id="图示当前分支历史"><a href="#图示当前分支历史" class="headerlink" title="图示当前分支历史"></a>图示当前分支历史</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show-branch</span><br></pre></td></tr></table></figure><p>图示所有分支<code>git show-branch -all</code></p><h3 id="单独提交到有gerrit系统的代码审核"><a href="#单独提交到有gerrit系统的代码审核" class="headerlink" title="单独提交到有gerrit系统的代码审核"></a>单独提交到有gerrit系统的代码审核</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push [remote_alias] HEAD:refs/for/[branch_name]</span><br></pre></td></tr></table></figure><p>替换<code>[remote_alias]</code>和<code>[branch_name]</code></p><p> remote_alias查看方法： <code>git remote -v</code></p><p> <strong>千万不要使用<code>git push  [branch_name]:origin/master</code></strong></p><h3 id="查看git仓库中文件某些行代码的最新提交信息"><a href="#查看git仓库中文件某些行代码的最新提交信息" class="headerlink" title="查看git仓库中文件某些行代码的最新提交信息"></a>查看git仓库中文件某些行代码的最新提交信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git blame -L 25,+5 xxxx.java</span><br></pre></td></tr></table></figure><p>   -L 参数表示以行数参数查看，25表示想要查看的行数，+5表示从25行开始看到30行的代码</p>]]></content>
+    <content type="html"><![CDATA[<p>首先区分git是分布式代码管理系统，每个计算机上或者说每个克隆的git仓库都是完整的，因此同一个本地克隆的远程的git仓库的关系是，本地对应远程（远端，非本机的），因此git的命令行也就对应了本地仓库的操作和同步到远程仓库的操作。</p><h2 id="git基础配置"><a href="#git基础配置" class="headerlink" title="git基础配置"></a>git基础配置</h2><p>假设在git服务器上设置的用户名是：gituser1，邮箱是：<a href="mailto:&#x67;&#105;&#116;&#x75;&#x73;&#x65;&#114;&#49;&#64;&#x67;&#x69;&#116;&#46;&#x63;&#x6f;&#109;">&#x67;&#105;&#116;&#x75;&#x73;&#x65;&#114;&#49;&#64;&#x67;&#x69;&#116;&#46;&#x63;&#x6f;&#109;</a></p><h3 id="配置git提交时候的全局用户名"><a href="#配置git提交时候的全局用户名" class="headerlink" title="配置git提交时候的全局用户名"></a>配置git提交时候的全局用户名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitconfig --global user.name gituser1</span><br></pre></td></tr></table></figure><h3 id="配置git提交时候的全局邮箱"><a href="#配置git提交时候的全局邮箱" class="headerlink" title="配置git提交时候的全局邮箱"></a>配置git提交时候的全局邮箱</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email gituser1@git.com</span><br></pre></td></tr></table></figure><h3 id="配置gerrit的review"><a href="#配置gerrit的review" class="headerlink" title="配置gerrit的review"></a>配置gerrit的review</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global review.gerrit.example.com:8081.username yourname</span><br></pre></td></tr></table></figure><h2 id="常用仓库操作"><a href="#常用仓库操作" class="headerlink" title="常用仓库操作"></a>常用仓库操作</h2><h3 id="创建git库"><a href="#创建git库" class="headerlink" title="创建git库"></a>创建git库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure><h3 id="查看本地仓库分支"><a href="#查看本地仓库分支" class="headerlink" title="查看本地仓库分支"></a>查看本地仓库分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure><p>想要查看对应的远端仓库分支可以用<code>git branch -a</code>来查看</p><h3 id="拉去仓库并创建分支"><a href="#拉去仓库并创建分支" class="headerlink" title="拉去仓库并创建分支"></a>拉去仓库并创建分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b master master_copy</span><br></pre></td></tr></table></figure><p>mater对应是远程仓库的分支名，master_copy是我们需要创建的本地仓库的分支名</p><h3 id="查看当前git库状态"><a href="#查看当前git库状态" class="headerlink" title="查看当前git库状态"></a>查看当前git库状态</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure><p>显示出红色的文件代表当前仓库中有文件与上一次同步状态不同<br>如果没有文件显示，且没有更改，会显示当前分支与远端分支一致，没有需要提交的更改。<br>如果显示没有更改，但是当前分支与远端分支不同步，则需要同步远端分支</p><p><em>养成良好的习惯提交修改代码前先把本地仓库与远端仓库同步</em></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure><p>查看当前git仓库对应的远程git仓库</p><h3 id="同步本地仓库与远端仓库"><a href="#同步本地仓库与远端仓库" class="headerlink" title="同步本地仓库与远端仓库"></a>同步本地仓库与远端仓库</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure><p>这个时候有可能报错，说明本地仓库之前就已经发生混乱，一般是本地有修改，又去同步，产生文件修改冲突后没有解决，如果确认可以把本地修改重置，则可以使用</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase</span><br></pre></td></tr></table></figure><p> 这个命令会把本地仓库换一个基础，可以认为是仓库是需要一个地皮的，rebase的作用就是把仓库换个干净的地皮重新造一个一样的与远程一样的仓库，　这样新的仓库就与远端的仓库完全一致了。</p><p>但是还有情况会出现本地仓库领先与远端仓库，而我们又不需要本地的修改，就可以把远端仓库检查校对拷贝过来。比如文件名为temp.log（相当于是把本地改动回退到远端文件版本）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout　temp.log</span><br></pre></td></tr></table></figure><p>将当前文件夹内所有文件都回退到远端git仓库</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout .</span><br></pre></td></tr></table></figure><hr><p>当修改了名为temp.log的文件后</p><h3 id="对比本地修改文件与本地仓库之间的区别"><a href="#对比本地修改文件与本地仓库之间的区别" class="headerlink" title="对比本地修改文件与本地仓库之间的区别"></a>对比本地修改文件与本地仓库之间的区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff temp.log</span><br></pre></td></tr></table></figure><p> 终端会显示出该文件的修改点，对应增删，如果开启了git的高亮显示，会有绿色表示添加，红色表示删除</p><p> 可以使用<code>git config --global color.ui true</code>来开启git颜色高亮</p><h3 id="添加文件-该文件在当前目录下-到当前git仓库（确切说是添加到了本地仓库的提交暂存区）"><a href="#添加文件-该文件在当前目录下-到当前git仓库（确切说是添加到了本地仓库的提交暂存区）" class="headerlink" title="添加文件(该文件在当前目录下)到当前git仓库（确切说是添加到了本地仓库的提交暂存区）"></a>添加文件(该文件在当前目录下)到当前git仓库（确切说是添加到了本地仓库的提交暂存区）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add temp.log</span><br></pre></td></tr></table></figure><p>将当前文件夹内所有文件都添加到当前git仓库</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure><p> 将文件添加到当前git仓库后，再使用<code>git status</code>查看状态，会发现文件对应路径会从红色变成绿色。</p><h3 id="将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）"><a href="#将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）" class="headerlink" title="将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）"></a>将添加到本地仓库的文件提交到本地仓库（从暂存区真正提交到仓库，会从暂存区移除改文件）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit temp.log</span><br></pre></td></tr></table></figure><p>&amp;</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit .</span><br></pre></td></tr></table></figure><p>&amp;</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit temp.log -m &quot;comit message(此引号内应填入提交信息)&quot;</span><br></pre></td></tr></table></figure><p> 提交后可以可以通过<code>git log</code>命令查看这个git仓库的历史记录</p><h3 id="查看当前本地仓库的历史提交记录"><a href="#查看当前本地仓库的历史提交记录" class="headerlink" title="查看当前本地仓库的历史提交记录"></a>查看当前本地仓库的历史提交记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure><h3 id="将本地仓库回退到历史记录中史上一次的修改状态"><a href="#将本地仓库回退到历史记录中史上一次的修改状态" class="headerlink" title="将本地仓库回退到历史记录中史上一次的修改状态"></a>将本地仓库回退到历史记录中史上一次的修改状态</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD^</span><br></pre></td></tr></table></figure><p> 解释下这个命令，reset本身可以重置，而HEAD表示分支的头，^表示分支头部的上一个位置，所以是回退到历史记录的上一条，也就是说如果你<code>git pull</code>后本地没有修改，但是这个时候执行了本条命令，那么你当前的本地仓库还是会回到历史记录中的上一个位置（尽管这个提交不是你操作的）</p><h3 id="修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）"><a href="#修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）" class="headerlink" title="修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）"></a>修改本地仓库的历史记录中上一次的提交信息（实际是合并上一次的提交）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure><p>可以使用<code>git reset HEAD^</code>命令使当前仓库回退到历史记录中上次的提交状态，这个时候比如说我们的temp.log已经commit后，使用这个resset命令会让我们的commit失效，文件状态会变成add之前的状态，这个时候我们可以修改temp.log然后使用<code>git commit --amend</code>合并上一次提交。</p><h2 id="其他git命令（进阶）"><a href="#其他git命令（进阶）" class="headerlink" title="其他git命令（进阶）"></a>其他git命令（进阶）</h2><h3 id="显示上一次提交的日志"><a href="#显示上一次提交的日志" class="headerlink" title="显示上一次提交的日志"></a>显示上一次提交的日志</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show HEAD^</span><br></pre></td></tr></table></figure><h3 id="显示某次提交的日志"><a href="#显示某次提交的日志" class="headerlink" title="显示某次提交的日志"></a>显示某次提交的日志</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show dfb02e6e4f2f7b573337763e5c0013802e392818</span><br></pre></td></tr></table></figure><h3 id="对比上一次提交的不同"><a href="#对比上一次提交的不同" class="headerlink" title="对比上一次提交的不同"></a>对比上一次提交的不同</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff HEAD^</span><br></pre></td></tr></table></figure><h3 id="显示所有已添加index（暂存）但还未commit的变更"><a href="#显示所有已添加index（暂存）但还未commit的变更" class="headerlink" title="显示所有已添加index（暂存）但还未commit的变更"></a>显示所有已添加index（暂存）但还未commit的变更</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff --cached</span><br></pre></td></tr></table></figure><h3 id="切换到dev分支（当前不在dev分支）"><a href="#切换到dev分支（当前不在dev分支）" class="headerlink" title="切换到dev分支（当前不在dev分支）"></a>切换到dev分支（当前不在dev分支）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev</span><br></pre></td></tr></table></figure><h3 id="获取所有远程分支"><a href="#获取所有远程分支" class="headerlink" title="获取所有远程分支"></a>获取所有远程分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch</span><br></pre></td></tr></table></figure><h3 id="删除本地分支"><a href="#删除本地分支" class="headerlink" title="删除本地分支"></a>删除本地分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d dev</span><br></pre></td></tr></table></figure><p>强制删除 <code>git branch -D dev</code></p><h3 id="图示当前分支历史"><a href="#图示当前分支历史" class="headerlink" title="图示当前分支历史"></a>图示当前分支历史</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git show-branch</span><br></pre></td></tr></table></figure><p>图示所有分支<code>git show-branch -all</code></p><h3 id="单独提交到有gerrit系统的代码审核"><a href="#单独提交到有gerrit系统的代码审核" class="headerlink" title="单独提交到有gerrit系统的代码审核"></a>单独提交到有gerrit系统的代码审核</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push [remote_alias] HEAD:refs/for/[branch_name]</span><br></pre></td></tr></table></figure><p>替换<code>[remote_alias]</code>和<code>[branch_name]</code></p><p> remote_alias查看方法： <code>git remote -v</code></p><p> <strong>千万不要使用<code>git push  [branch_name]:origin/master</code></strong></p><h3 id="查看git仓库中文件某些行代码的最新提交信息"><a href="#查看git仓库中文件某些行代码的最新提交信息" class="headerlink" title="查看git仓库中文件某些行代码的最新提交信息"></a>查看git仓库中文件某些行代码的最新提交信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git blame -L 25,+5 xxxx.java</span><br></pre></td></tr></table></figure><p>   -L 参数表示以行数参数查看，25表示想要查看的行数，+5表示从25行开始看到30行的代码</p>]]></content>
     
     
       
@@ -354,17 +352,17 @@
     
     
     
-    <category term="Tools" scheme="http://dracewang.github.io/categories/Tools/"/>
+    <category term="Tools" scheme="https://ainavigation.org/categories/Tools/"/>
     
     
-    <category term="git" scheme="http://dracewang.github.io/tags/git/"/>
+    <category term="git" scheme="https://ainavigation.org/tags/git/"/>
     
   </entry>
   
   <entry>
     <title>Android LCD屏幕亮度曲线调整</title>
-    <link href="http://dracewang.github.io/2019/02/13/Android%20LCD%E5%B1%8F%E5%B9%95%E4%BA%AE%E5%BA%A6%E6%9B%B2%E7%BA%BF%E8%B0%83%E6%95%B4/"/>
-    <id>http://dracewang.github.io/2019/02/13/Android%20LCD%E5%B1%8F%E5%B9%95%E4%BA%AE%E5%BA%A6%E6%9B%B2%E7%BA%BF%E8%B0%83%E6%95%B4/</id>
+    <link href="https://ainavigation.org/2019/02/13/Android%20LCD%E5%B1%8F%E5%B9%95%E4%BA%AE%E5%BA%A6%E6%9B%B2%E7%BA%BF%E8%B0%83%E6%95%B4/"/>
+    <id>https://ainavigation.org/2019/02/13/Android%20LCD%E5%B1%8F%E5%B9%95%E4%BA%AE%E5%BA%A6%E6%9B%B2%E7%BA%BF%E8%B0%83%E6%95%B4/</id>
     <published>2019-02-13T04:13:00.000Z</published>
     <updated>2026-03-02T12:20:05.039Z</updated>
     
@@ -379,19 +377,19 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="LCD" scheme="http://dracewang.github.io/tags/LCD/"/>
+    <category term="LCD" scheme="https://ainavigation.org/tags/LCD/"/>
     
-    <category term="BSP" scheme="http://dracewang.github.io/tags/BSP/"/>
+    <category term="BSP" scheme="https://ainavigation.org/tags/BSP/"/>
     
   </entry>
   
   <entry>
     <title>在U盘上安装ArchLinux系统</title>
-    <link href="http://dracewang.github.io/2016/02/04/%E5%9C%A8U%E7%9B%98%E4%B8%8A%E5%AE%89%E8%A3%85ArchLinux%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://dracewang.github.io/2016/02/04/%E5%9C%A8U%E7%9B%98%E4%B8%8A%E5%AE%89%E8%A3%85ArchLinux%E7%B3%BB%E7%BB%9F/</id>
+    <link href="https://ainavigation.org/2016/02/04/%E5%9C%A8U%E7%9B%98%E4%B8%8A%E5%AE%89%E8%A3%85ArchLinux%E7%B3%BB%E7%BB%9F/"/>
+    <id>https://ainavigation.org/2016/02/04/%E5%9C%A8U%E7%9B%98%E4%B8%8A%E5%AE%89%E8%A3%85ArchLinux%E7%B3%BB%E7%BB%9F/</id>
     <published>2016-02-04T04:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.044Z</updated>
     
@@ -405,19 +403,19 @@
     
     
     
-    <category term="Linux" scheme="http://dracewang.github.io/categories/Linux/"/>
+    <category term="Linux" scheme="https://ainavigation.org/categories/Linux/"/>
     
     
-    <category term="archlinux" scheme="http://dracewang.github.io/tags/archlinux/"/>
+    <category term="archlinux" scheme="https://ainavigation.org/tags/archlinux/"/>
     
-    <category term="mobile system" scheme="http://dracewang.github.io/tags/mobile-system/"/>
+    <category term="mobile system" scheme="https://ainavigation.org/tags/mobile-system/"/>
     
   </entry>
   
   <entry>
     <title>Android Broadcast的简单应用</title>
-    <link href="http://dracewang.github.io/2015/12/06/Android%20Broadcast%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/"/>
-    <id>http://dracewang.github.io/2015/12/06/Android%20Broadcast%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/</id>
+    <link href="https://ainavigation.org/2015/12/06/Android%20Broadcast%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/"/>
+    <id>https://ainavigation.org/2015/12/06/Android%20Broadcast%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/</id>
     <published>2015-12-06T02:05:56.000Z</published>
     <updated>2026-03-02T12:20:05.039Z</updated>
     
@@ -431,17 +429,17 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="brodcast" scheme="http://dracewang.github.io/tags/brodcast/"/>
+    <category term="brodcast" scheme="https://ainavigation.org/tags/brodcast/"/>
     
   </entry>
   
   <entry>
     <title>Android系统权限以及selinux权限添加的简单解析</title>
-    <link href="http://dracewang.github.io/2015/09/29/Android%E7%B3%BB%E7%BB%9Fuid&amp;gid%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8Aselinux%E6%9D%83%E9%99%90%E6%B7%BB%E5%8A%A0%E7%9A%84%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/"/>
-    <id>http://dracewang.github.io/2015/09/29/Android%E7%B3%BB%E7%BB%9Fuid&amp;gid%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8Aselinux%E6%9D%83%E9%99%90%E6%B7%BB%E5%8A%A0%E7%9A%84%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/</id>
+    <link href="https://ainavigation.org/2015/09/29/Android%E7%B3%BB%E7%BB%9Fuid&amp;gid%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8Aselinux%E6%9D%83%E9%99%90%E6%B7%BB%E5%8A%A0%E7%9A%84%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/"/>
+    <id>https://ainavigation.org/2015/09/29/Android%E7%B3%BB%E7%BB%9Fuid&amp;gid%E6%9D%83%E9%99%90%E4%BB%A5%E5%8F%8Aselinux%E6%9D%83%E9%99%90%E6%B7%BB%E5%8A%A0%E7%9A%84%E7%AE%80%E5%8D%95%E8%A7%A3%E6%9E%90/</id>
     <published>2015-09-29T04:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.039Z</updated>
     
@@ -455,23 +453,23 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="linux" scheme="http://dracewang.github.io/tags/linux/"/>
+    <category term="linux" scheme="https://ainavigation.org/tags/linux/"/>
     
-    <category term="uid" scheme="http://dracewang.github.io/tags/uid/"/>
+    <category term="uid" scheme="https://ainavigation.org/tags/uid/"/>
     
-    <category term="gid" scheme="http://dracewang.github.io/tags/gid/"/>
+    <category term="gid" scheme="https://ainavigation.org/tags/gid/"/>
     
-    <category term="selinux" scheme="http://dracewang.github.io/tags/selinux/"/>
+    <category term="selinux" scheme="https://ainavigation.org/tags/selinux/"/>
     
   </entry>
   
   <entry>
     <title>Android 常用工具命令</title>
-    <link href="http://dracewang.github.io/2015/09/29/Android%20%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%91%BD%E4%BB%A4/"/>
-    <id>http://dracewang.github.io/2015/09/29/Android%20%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%91%BD%E4%BB%A4/</id>
+    <link href="https://ainavigation.org/2015/09/29/Android%20%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%91%BD%E4%BB%A4/"/>
+    <id>https://ainavigation.org/2015/09/29/Android%20%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%91%BD%E4%BB%A4/</id>
     <published>2015-09-29T01:29:00.000Z</published>
     <updated>2026-03-02T12:20:05.039Z</updated>
     
@@ -486,19 +484,19 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="ADB" scheme="http://dracewang.github.io/tags/ADB/"/>
+    <category term="ADB" scheme="https://ainavigation.org/tags/ADB/"/>
     
-    <category term="shell" scheme="http://dracewang.github.io/tags/shell/"/>
+    <category term="shell" scheme="https://ainavigation.org/tags/shell/"/>
     
   </entry>
   
   <entry>
     <title>Android Service的简单应用</title>
-    <link href="http://dracewang.github.io/2015/09/24/Android%20Service%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/"/>
-    <id>http://dracewang.github.io/2015/09/24/Android%20Service%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/</id>
+    <link href="https://ainavigation.org/2015/09/24/Android%20Service%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/"/>
+    <id>https://ainavigation.org/2015/09/24/Android%20Service%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/</id>
     <published>2015-09-24T04:00:00.000Z</published>
     <updated>2026-03-02T12:20:05.039Z</updated>
     
@@ -513,17 +511,17 @@
     
     
     
-    <category term="Android" scheme="http://dracewang.github.io/categories/Android/"/>
+    <category term="Android" scheme="https://ainavigation.org/categories/Android/"/>
     
     
-    <category term="service" scheme="http://dracewang.github.io/tags/service/"/>
+    <category term="service" scheme="https://ainavigation.org/tags/service/"/>
     
   </entry>
   
   <entry>
     <title>ubuntu14.04 安装redmine2.5.3</title>
-    <link href="http://dracewang.github.io/2014/12/15/ubuntu14.04%20%E5%AE%89%E8%A3%85redmine2.5.3/"/>
-    <id>http://dracewang.github.io/2014/12/15/ubuntu14.04%20%E5%AE%89%E8%A3%85redmine2.5.3/</id>
+    <link href="https://ainavigation.org/2014/12/15/ubuntu14.04%20%E5%AE%89%E8%A3%85redmine2.5.3/"/>
+    <id>https://ainavigation.org/2014/12/15/ubuntu14.04%20%E5%AE%89%E8%A3%85redmine2.5.3/</id>
     <published>2014-12-15T04:15:00.000Z</published>
     <updated>2026-03-02T12:20:05.040Z</updated>
     
@@ -537,19 +535,19 @@
     
     
     
-    <category term="ALM开发" scheme="http://dracewang.github.io/categories/ALM%E5%BC%80%E5%8F%91/"/>
+    <category term="ALM开发" scheme="https://ainavigation.org/categories/ALM%E5%BC%80%E5%8F%91/"/>
     
     
-    <category term="redmine" scheme="http://dracewang.github.io/tags/redmine/"/>
+    <category term="redmine" scheme="https://ainavigation.org/tags/redmine/"/>
     
-    <category term="ubuntu" scheme="http://dracewang.github.io/tags/ubuntu/"/>
+    <category term="ubuntu" scheme="https://ainavigation.org/tags/ubuntu/"/>
     
   </entry>
   
   <entry>
     <title>LDAP安装与关联redmine</title>
-    <link href="http://dracewang.github.io/2014/12/09/ldap%E5%AE%89%E8%A3%85%E4%B8%8E%E5%85%B3%E8%81%94redmine/"/>
-    <id>http://dracewang.github.io/2014/12/09/ldap%E5%AE%89%E8%A3%85%E4%B8%8E%E5%85%B3%E8%81%94redmine/</id>
+    <link href="https://ainavigation.org/2014/12/09/ldap%E5%AE%89%E8%A3%85%E4%B8%8E%E5%85%B3%E8%81%94redmine/"/>
+    <id>https://ainavigation.org/2014/12/09/ldap%E5%AE%89%E8%A3%85%E4%B8%8E%E5%85%B3%E8%81%94redmine/</id>
     <published>2014-12-09T04:09:00.000Z</published>
     <updated>2026-03-02T12:20:05.040Z</updated>
     
@@ -563,12 +561,12 @@
     
     
     
-    <category term="ALM开发" scheme="http://dracewang.github.io/categories/ALM%E5%BC%80%E5%8F%91/"/>
+    <category term="ALM开发" scheme="https://ainavigation.org/categories/ALM%E5%BC%80%E5%8F%91/"/>
     
     
-    <category term="LDAP" scheme="http://dracewang.github.io/tags/LDAP/"/>
+    <category term="LDAP" scheme="https://ainavigation.org/tags/LDAP/"/>
     
-    <category term="redmine" scheme="http://dracewang.github.io/tags/redmine/"/>
+    <category term="redmine" scheme="https://ainavigation.org/tags/redmine/"/>
     
   </entry>
   
