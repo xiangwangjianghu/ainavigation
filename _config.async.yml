@@ -33,7 +33,7 @@ sidebar:
   social:
     - name: 微博
       icon: fab fa-weibo
-      url: https://www.weibo.com/u/2421168192
+      url: https://www.weibo.com
     - name: 知乎
       icon: fab fa-zhihu
       url: https://www.zhihu.com/people/shifenwenzi
@@ -189,7 +189,7 @@ user:
   first_name: -做世界公民
   last_name: 信息差
   email: a18756423535@126.com
-  domain: https://ainavigation.org/
+  domain: https://ainavigation.org
   avatar: /img/plane.jpg
   describe: 
   rule_text: 暂不接受个人博客以外的友链申请，确保您的网站内容积极向上，文章至少30篇，原创70%以上，部署HTTPS。

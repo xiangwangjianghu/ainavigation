@@ -103,7 +103,7 @@ theme: async
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/xiangwangjianghu/ainavigation
+  repo: https://github.com/xiangwangjianghu/ainavigation.git
   branch: master
 
 # Google AdSense
@@ -114,6 +114,4 @@ hexo_google_adsense:
   file_path: 'source/ads/article_ads.html'
   client: ca-pub-9202416674052976
 
-# hexo 中英文之间自动加空格 
-auto_spacing:
-  enable: true
+
